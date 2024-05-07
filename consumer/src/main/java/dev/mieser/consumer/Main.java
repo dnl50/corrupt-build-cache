@@ -1,5 +1,6 @@
 package dev.mieser.consumer;
 
+import dev.mieser.producer.Test;
 import dev.mieser.producer.generated.Generated1;
 import dev.mieser.producer.generated.Generated1000;
 import dev.mieser.producer.generated.Generated10000;
@@ -36,6 +37,7 @@ public class Main {
         new Generated13000();
         new Generated14000();
         new Generated15000();
+        new Test();
     }
 
 }
