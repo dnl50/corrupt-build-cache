@@ -21,7 +21,7 @@ val generateSourceFiles by tasks.registering {
         val sourcesDir = outputDir.get().dir("dev/mieser/producer/generated").asFile
         sourcesDir.mkdirs()
 
-        (1..10_000).forEach { index ->
+        (1..15_000).forEach { index ->
             sourcesDir.resolve("Generated$index.java").writeText("""
                 package dev.mieser.producer.generated;
 
