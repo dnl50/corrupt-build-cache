@@ -13,15 +13,26 @@ java {
 }
 
 // Generates lots of java source files so the compiler is busy compiling
-val generateSourceFiles by tasks.registering {
-    val outputDir = layout.buildDirectory.dir("generated-source-files")
-    outputs.dir(outputDir)
+val generateSourceFiles by tasks.registering(SourceFileGenerator::class) {
+    outputDir.set(layout.buildDirectory.dir("generated-source-files"))
+    classCount.set(15_000)
+}
 
-    doLast {
+@CacheableTask
+abstract class SourceFileGenerator : DefaultTask() {
+
+    @get:Input
+    abstract val classCount: Property<Int>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
         val sourcesDir = outputDir.get().dir("dev/mieser/producer/generated").asFile
         sourcesDir.mkdirs()
 
-        (1..15_000).forEach { index ->
+        (1..classCount.get()).forEach { index ->
             sourcesDir.resolve("Generated$index.java").writeText("""
                 package dev.mieser.producer.generated;
 
@@ -31,6 +42,7 @@ val generateSourceFiles by tasks.registering {
             """.trimIndent())
         }
     }
+
 }
 
 sourceSets {
